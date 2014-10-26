@@ -1,25 +1,16 @@
-# Ember-cli-dependency-checker
+ember-cli-dependency-checker
+============================
 
-This README outlines the details of collaborating on this Ember addon.
+Ember CLI addon that checks for missing npm and bower dependencies before running ember commands
 
-## Installation
+### Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+In your Ember CLI app (>= v0.0.37) run the following:
 
-## Running
+```bash
+npm install --save-dev ember-cli-dependency-checker
+```
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+### LICENSE
 
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+MIT
