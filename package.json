@@ -52,6 +52,7 @@
     "configPath": "tests/dummy/config"
   },
   "dependencies": {
+    "chalk": "^0.5.1",
     "semver": "^4.1.0"
   }
 }
