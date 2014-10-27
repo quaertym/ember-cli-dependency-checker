@@ -2,6 +2,7 @@
 
 var path       = require('path');
 var semver     = require('semver');
+var chalk      = require('chalk');
 var EOL        = require('os').EOL;
 var fs         = require('fs');
 var readFile   = fs.readFileSync;
@@ -16,12 +17,6 @@ function EmberCLIDependencyChecker(project) {
   this.checkDependencies(project);
 }
 
-// var diff = function(first, second) {
-//   return first.filter(function(i) {
-//     return second.indexOf(i) < 0;
-//   });
-// };
-
 EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
 
   if(alreadyPrinted) {
@@ -34,20 +29,12 @@ EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
 
   var bowerDeps = this.readBowerDependencies(project);
   var unsatisfiedBowerDeps = bowerDeps.filter(isUnsatisfied);
-  console.log(unsatisfiedBowerDeps);
 
   var npmDeps = this.readNPMDependencies(project);
   var unsatisfiedNPMDeps = npmDeps.filter(isUnsatisfied);
-  console.log(unsatisfiedNPMDeps);
-  // var bowerDirectoryContents = this.readBowerDirectoryContents(project);
-  // var missingBowerDeps = diff(bowerDeps, bowerDirectoryContents);
 
-  // var pkgDeps = this.readPackageFileDependencies(project);
-  // var modulesDirectoryContents = this.readModulesDirectoryContents(project);
-  // var missingNodeDeps = diff(pkgDeps, modulesDirectoryContents);
-
-  // this.printMissingDependencies('bower', missingBowerDeps);
-  // this.printMissingDependencies('npm', missingNodeDeps);
+  this.reportUnsatisfiedPackages('npm', unsatisfiedNPMDeps);
+  this.reportUnsatisfiedPackages('bower', unsatisfiedBowerDeps);
   alreadyPrinted = true;
 };
 
@@ -86,7 +73,11 @@ EmberCLIDependencyChecker.prototype.updateRequired = function(name, version, ver
     return true;
   }
 
-  if (this.isGitRepo(version)) {
+  var isGitRepo = function(str) {
+    return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
+  };
+
+  if (isGitRepo(version)) {
     var parts = version.split('#');
     if (parts.length === 2) {
       version = this.semver.valid(parts[1]);
@@ -103,26 +94,6 @@ EmberCLIDependencyChecker.prototype.updateRequired = function(name, version, ver
   return !semver.satisfies(versionInstalled, version);
 };
 
-EmberCLIDependencyChecker.prototype.isGitRepo = function(str) {
-  return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
-};
-
-EmberCLIDependencyChecker.prototype.readModulesDirectoryContents = function(project) {
-  var modulesDirectory = path.join(project.root, 'node_modules');
-  return readDir(modulesDirectory);
-};
-
-EmberCLIDependencyChecker.prototype.readBowerDirectoryContents = function(project) {
-  var bowerDirectory = path.join(project.root, project.bowerDirectory);
-  var packages = readDir(bowerDirectory).map(function(name) {
-    return {
-      name: name,
-      version: this.lookupBowerPackageVersion(project, name)
-    };
-  }, this);
-  return packages;
-};
-
 EmberCLIDependencyChecker.prototype.readBowerDependencies = function(project) {
   var bowerFilePath = path.join(project.root, 'bower.json');
   var bowerFileContents = fs.readFileSync(bowerFilePath);
@@ -130,12 +101,7 @@ EmberCLIDependencyChecker.prototype.readBowerDependencies = function(project) {
   return Object.keys(dependencies).map(function(name) {
     var versionSpecified = dependencies[name];
     var versionInstalled = this.lookupBowerPackageVersion(project, name);
-    return {
-      name: name,
-      versionSpecified: versionSpecified,
-      versionInstalled: versionInstalled,
-      needsUpdate: this.updateRequired(name, versionSpecified, versionInstalled)
-    };
+    return this.resolvePackage(name, versionSpecified, versionInstalled);
   }, this);
 };
 
@@ -144,27 +110,38 @@ EmberCLIDependencyChecker.prototype.readNPMDependencies = function(project) {
   return Object.keys(dependencies).map(function(name) {
     var versionSpecified = dependencies[name];
     var versionInstalled = this.lookupNodeModuleVersion(project, name);
-    return {
-      name: name,
-      versionSpecified: versionSpecified,
-      versionInstalled: versionInstalled,
-      needsUpdate: this.updateRequired(name, versionSpecified, versionInstalled)
-    };
+    return this.resolvePackage(name, versionSpecified, versionInstalled);
   }, this);
 };
 
-EmberCLIDependencyChecker.prototype.readPackageFileDependencies = function(project) {
-  return Object.keys(project.dependencies());
-};
+EmberCLIDependencyChecker.prototype.resolvePackage = function(name, versionSpecified, versionInstalled) {
+  return {
+    name: name,
+    versionSpecified: versionSpecified,
+    versionInstalled: versionInstalled,
+    needsUpdate: this.updateRequired(name, versionSpecified, versionInstalled)
+  };
+}
 
-EmberCLIDependencyChecker.prototype.printMissingDependencies = function(type, dependencies) {
-  if(dependencies.length > 0) {
-    process.stdout.write(EOL + 'Missing ' + type + ' dependencies: ' + EOL);
-    dependencies.forEach(function(name) {
-      process.stdout.write('\t' + name + EOL);
-    });
-    process.stdout.write(EOL);
+EmberCLIDependencyChecker.prototype.reportUnsatisfiedPackages = function(type, packages) {
+  if(packages.length > 0) {
+    this.writeLine('');
+    this.writeLine(chalk.red('Missing ' + type + ' packages: '));
+
+    packages.map(function(pkg) {
+      this.writeLine('Package: ' + chalk.cyan(pkg.name));
+      this.writeLine(chalk.grey('  * Specified: ') + pkg.versionSpecified);
+      this.writeLine(chalk.grey('  * Installed: ') + (pkg.versionInstalled || '(not installed)'));
+      this.writeLine('');
+    }, this);
+
+    this.writeLine(chalk.red('Run `'+ type +' install` to install missing dependencies.'));
+    this.writeLine('');
   }
 };
+
+EmberCLIDependencyChecker.prototype.writeLine = function(str) {
+  process.stdout.write(str + EOL);
+}
 
 module.exports = EmberCLIDependencyChecker;
