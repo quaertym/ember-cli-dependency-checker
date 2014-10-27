@@ -50,5 +50,8 @@
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "dependencies": {
+    "semver": "^4.1.0"
   }
 }
