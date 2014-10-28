@@ -6,7 +6,6 @@ var chalk      = require('chalk');
 var EOL        = require('os').EOL;
 var fs         = require('fs');
 var readFile   = fs.readFileSync;
-var readDir    = fs.readdirSync;
 var fileExists = fs.existsSync;
 
 var alreadyPrinted = false;
@@ -121,27 +120,21 @@ EmberCLIDependencyChecker.prototype.resolvePackage = function(name, versionSpeci
     versionInstalled: versionInstalled,
     needsUpdate: this.updateRequired(name, versionSpecified, versionInstalled)
   };
-}
+};
 
 EmberCLIDependencyChecker.prototype.reportUnsatisfiedPackages = function(type, packages) {
   if(packages.length > 0) {
-    this.writeLine('');
-    this.writeLine(chalk.red('Missing ' + type + ' packages: '));
+    var message = EOL + chalk.red('Missing ' + type + ' packages: ') + EOL;
 
     packages.map(function(pkg) {
-      this.writeLine('Package: ' + chalk.cyan(pkg.name));
-      this.writeLine(chalk.grey('  * Specified: ') + pkg.versionSpecified);
-      this.writeLine(chalk.grey('  * Installed: ') + (pkg.versionInstalled || '(not installed)'));
-      this.writeLine('');
+      message += 'Package: ' + chalk.cyan(pkg.name) + EOL;
+      message += chalk.grey('  * Specified: ') + pkg.versionSpecified + EOL;
+      message += chalk.grey('  * Installed: ') + (pkg.versionInstalled || '(not installed)') + EOL + EOL;
     }, this);
 
-    this.writeLine(chalk.red('Run `'+ type +' install` to install missing dependencies.'));
-    this.writeLine('');
+    message += chalk.red('Run `'+ type +' install` to install missing dependencies.') + EOL;
+    process.stdout.write(message);
   }
 };
-
-EmberCLIDependencyChecker.prototype.writeLine = function(str) {
-  process.stdout.write(str + EOL);
-}
 
 module.exports = EmberCLIDependencyChecker;
