@@ -41,11 +41,11 @@ EmberCLIDependencyChecker.prototype.lookupNodeModuleVersion = function(project, 
 };
 
 EmberCLIDependencyChecker.prototype.lookupBowerPackageVersion = function(project, name) {
-  var bowerFile = path.join(project.root, project.bowerDirectory, name, 'bower.json');
-  var version = this.lookupPackageVersion(bowerFile);
+  var dotBowerFile = path.join(project.root, project.bowerDirectory, name, '.bower.json');
+  var version = this.lookupPackageVersion(dotBowerFile);
   if(!version) {
-    var dotBowerFile = path.join(project.root, project.bowerDirectory, name, '.bower.json');
-    version = this.lookupPackageVersion(dotBowerFile);
+    var bowerFile = path.join(project.root, project.bowerDirectory, name, 'bower.json');
+    version = this.lookupPackageVersion(bowerFile);
   }
   return version;
 };
