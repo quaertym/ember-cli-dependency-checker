@@ -8,8 +8,6 @@ var fs         = require('fs');
 var readFile   = fs.readFileSync;
 var fileExists = fs.existsSync;
 
-var alreadyPrinted = false;
-
 function EmberCLIDependencyChecker(project) {
   this.name    = 'ember-cli-dependency-checker';
   this.project = project;
@@ -17,10 +15,6 @@ function EmberCLIDependencyChecker(project) {
 }
 
 EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
-
-  if(alreadyPrinted) {
-    return;
-  }
 
   var isUnsatisfied = function(pkg) {
     return !!pkg.needsUpdate;
@@ -32,9 +26,13 @@ EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
   var npmDeps = this.readNPMDependencies(project);
   var unsatisfiedNPMDeps = npmDeps.filter(isUnsatisfied);
 
-  this.reportUnsatisfiedPackages('npm', unsatisfiedNPMDeps);
-  this.reportUnsatisfiedPackages('bower', unsatisfiedBowerDeps);
-  alreadyPrinted = true;
+  var message = '';
+  message += this.reportUnsatisfiedPackages('npm', unsatisfiedNPMDeps);
+  message += this.reportUnsatisfiedPackages('bower', unsatisfiedBowerDeps);
+
+  if(message !== '') {
+    throw new DependencyError(message);
+  }
 };
 
 EmberCLIDependencyChecker.prototype.lookupNodeModuleVersion = function(project, name) {
@@ -123,18 +121,34 @@ EmberCLIDependencyChecker.prototype.resolvePackage = function(name, versionSpeci
 };
 
 EmberCLIDependencyChecker.prototype.reportUnsatisfiedPackages = function(type, packages) {
+  var message = '';
   if(packages.length > 0) {
-    var message = EOL + chalk.red('Missing ' + type + ' packages: ') + EOL;
+    message += EOL + chalk.red('Missing ' + type + ' packages: ') + EOL;
 
     packages.map(function(pkg) {
-      message += 'Package: ' + chalk.cyan(pkg.name) + EOL;
-      message += chalk.grey('  * Specified: ') + pkg.versionSpecified + EOL;
-      message += chalk.grey('  * Installed: ') + (pkg.versionInstalled || '(not installed)') + EOL + EOL;
+      message += chalk.green('Package: ') + chalk.cyan(pkg.name) + EOL;
+      message += chalk.grey('  * Specified: ') + chalk.green(pkg.versionSpecified) + EOL;
+      message += chalk.grey('  * Installed: ') + chalk.green(pkg.versionInstalled || '(not installed)') + EOL + EOL;
     }, this);
 
     message += chalk.red('Run `'+ type +' install` to install missing dependencies.') + EOL;
-    process.stdout.write(message);
   }
+  return message;
 };
+
+function DependencyError(message) {
+  this.name     = 'DependencyError';
+  this.message  = message;
+
+  if (process.env.EMBER_VERBOSE_ERRORS === 'true') {
+    this.stack = (new Error()).stack;
+    this.suppressStacktrace = false;
+  } else {
+    this.suppressStacktrace = true;
+  }
+}
+
+DependencyError.prototype = Error.prototype;
+DependencyError.prototype.constructor = DependencyError;
 
 module.exports = EmberCLIDependencyChecker;
