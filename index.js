@@ -140,7 +140,7 @@ function DependencyError(message) {
   }
 }
 
-DependencyError.prototype = Error.prototype;
+DependencyError.prototype = Object.create(Error.prototype);
 DependencyError.prototype.constructor = DependencyError;
 
 var isGitRepo = function(str) {
