@@ -11,19 +11,19 @@ var fileExists = fs.existsSync;
 function EmberCLIDependencyChecker(project) {
   this.name    = 'ember-cli-dependency-checker';
   this.project = project;
-  this.checkDependencies(project);
+  this.checkDependencies();
 }
 
-EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
+EmberCLIDependencyChecker.prototype.checkDependencies = function() {
 
   var isUnsatisfied = function(pkg) {
     return !!pkg.needsUpdate;
   };
 
-  var bowerDeps = this.readBowerDependencies(project);
+  var bowerDeps = this.readBowerDependencies();
   var unsatisfiedBowerDeps = bowerDeps.filter(isUnsatisfied);
 
-  var npmDeps = this.readNPMDependencies(project);
+  var npmDeps = this.readNPMDependencies();
   var unsatisfiedNPMDeps = npmDeps.filter(isUnsatisfied);
 
   var message = '';
@@ -35,16 +35,16 @@ EmberCLIDependencyChecker.prototype.checkDependencies = function(project) {
   }
 };
 
-EmberCLIDependencyChecker.prototype.lookupNodeModuleVersion = function(project, name) {
-  var nodePackage = path.join(project.root, 'node_modules', name, 'package.json');
+EmberCLIDependencyChecker.prototype.lookupNodeModuleVersion = function(name) {
+  var nodePackage = path.join(this.project.root, 'node_modules', name, 'package.json');
   return this.lookupPackageVersion(nodePackage);
 };
 
-EmberCLIDependencyChecker.prototype.lookupBowerPackageVersion = function(project, name) {
-  var dotBowerFile = path.join(project.root, project.bowerDirectory, name, '.bower.json');
+EmberCLIDependencyChecker.prototype.lookupBowerPackageVersion = function(name) {
+  var dotBowerFile = path.join(this.project.root, this.project.bowerDirectory, name, '.bower.json');
   var version = this.lookupPackageVersion(dotBowerFile);
   if(!version) {
-    var bowerFile = path.join(project.root, project.bowerDirectory, name, 'bower.json');
+    var bowerFile = path.join(this.project.root, this.project.bowerDirectory, name, 'bower.json');
     version = this.lookupPackageVersion(bowerFile);
   }
   return version;
@@ -91,22 +91,22 @@ EmberCLIDependencyChecker.prototype.updateRequired = function(name, version, ver
   return !semver.satisfies(versionInstalled, version);
 };
 
-EmberCLIDependencyChecker.prototype.readBowerDependencies = function(project) {
-  var bowerFilePath = path.join(project.root, 'bower.json');
+EmberCLIDependencyChecker.prototype.readBowerDependencies = function() {
+  var bowerFilePath = path.join(this.project.root, 'bower.json');
   var bowerFileContents = fs.readFileSync(bowerFilePath);
   var dependencies = JSON.parse(bowerFileContents).dependencies;
   return Object.keys(dependencies).map(function(name) {
     var versionSpecified = dependencies[name];
-    var versionInstalled = this.lookupBowerPackageVersion(project, name);
+    var versionInstalled = this.lookupBowerPackageVersion(name);
     return this.resolvePackage(name, versionSpecified, versionInstalled);
   }, this);
 };
 
-EmberCLIDependencyChecker.prototype.readNPMDependencies = function(project) {
-  var dependencies = project.dependencies();
+EmberCLIDependencyChecker.prototype.readNPMDependencies = function() {
+  var dependencies = this.project.dependencies();
   return Object.keys(dependencies).map(function(name) {
     var versionSpecified = dependencies[name];
-    var versionInstalled = this.lookupNodeModuleVersion(project, name);
+    var versionInstalled = this.lookupNodeModuleVersion(name);
     return this.resolvePackage(name, versionSpecified, versionInstalled);
   }, this);
 };
