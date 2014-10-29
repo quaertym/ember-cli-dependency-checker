@@ -70,10 +70,6 @@ EmberCLIDependencyChecker.prototype.updateRequired = function(name, version, ver
     return true;
   }
 
-  var isGitRepo = function(str) {
-    return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
-  };
-
   if (isGitRepo(version)) {
     var parts = version.split('#');
     if (parts.length === 2) {
@@ -150,5 +146,9 @@ function DependencyError(message) {
 
 DependencyError.prototype = Error.prototype;
 DependencyError.prototype.constructor = DependencyError;
+
+var isGitRepo = function(str) {
+  return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
+};
 
 module.exports = EmberCLIDependencyChecker;
