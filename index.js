@@ -16,10 +16,6 @@ function EmberCLIDependencyChecker(project) {
 
 EmberCLIDependencyChecker.prototype.checkDependencies = function() {
 
-  var isUnsatisfied = function(pkg) {
-    return !!pkg.needsUpdate;
-  };
-
   var bowerDeps = this.readBowerDependencies();
   var unsatisfiedBowerDeps = bowerDeps.filter(isUnsatisfied);
 
@@ -149,6 +145,10 @@ DependencyError.prototype.constructor = DependencyError;
 
 var isGitRepo = function(str) {
   return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
+};
+
+var isUnsatisfied = function(pkg) {
+  return !!pkg.needsUpdate;
 };
 
 module.exports = EmberCLIDependencyChecker;
