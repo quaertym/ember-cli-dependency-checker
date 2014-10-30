@@ -7,6 +7,7 @@ var EOL        = require('os').EOL;
 var fs         = require('fs');
 var readFile   = fs.readFileSync;
 var fileExists = fs.existsSync;
+var DependencyError = require('./lib/dependency-error');
 
 function EmberCLIDependencyChecker(project) {
   this.name    = 'ember-cli-dependency-checker';
@@ -127,21 +128,6 @@ EmberCLIDependencyChecker.prototype.reportUnsatisfiedPackages = function(type, p
   }
   return message;
 };
-
-function DependencyError(message) {
-  this.name     = 'DependencyError';
-  this.message  = message;
-
-  if (process.env.EMBER_VERBOSE_ERRORS === 'true') {
-    this.stack = (new Error()).stack;
-    this.suppressStacktrace = false;
-  } else {
-    this.suppressStacktrace = true;
-  }
-}
-
-DependencyError.prototype = Object.create(Error.prototype);
-DependencyError.prototype.constructor = DependencyError;
 
 var isGitRepo = function(str) {
   return (/^git(\+(ssh|https?))?:\/\//i).test(str) || (/\.git\/?$/i).test(str) || (/^git@/i).test(str);
