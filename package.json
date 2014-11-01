@@ -6,7 +6,6 @@
     "doc": "doc",
     "test": "tests"
   },
-  "main": "lib/dependency-checker",
   "scripts": {
     "start": "ember server",
     "build": "ember build",
