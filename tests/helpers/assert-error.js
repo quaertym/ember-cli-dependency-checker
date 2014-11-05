@@ -10,4 +10,5 @@ module.exports = function(project, type) {
   };
 
   assert.throws(dependencyChecker, DependencyError, 'Missing ' + type + ' packages');
+  DependencyChecker.setAlreadyChecked(false);
 };
