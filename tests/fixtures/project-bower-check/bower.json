@@ -1,5 +1,5 @@
 {
-  "name": "project-bower-check"
+  "name": "project-bower-check",
   "dependencies": {
     "ember": "1.7.0"
   }

@@ -8,5 +8,7 @@ module.exports = function(project, type) {
   var dependencyChecker = function() {
     return new DependencyChecker(project);
   };
+
   assert.doesNotThrow(dependencyChecker, DependencyError, 'Missing ' + type + 'packages');
+  DependencyChecker.setAlreadyChecked(false);
 };

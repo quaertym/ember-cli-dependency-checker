@@ -1,7 +1,7 @@
 'use strict';
 
-var assertError       = require('../helpers/assert-error');
-var assertNoError     = require('../helpers/assert-no-error');
+var assertError   = require('../helpers/assert-error');
+var assertNoError = require('../helpers/assert-no-error');
 
 describe('EmberCLIDependencyChecker', function() {
   var createProject = function(dependencies) {
@@ -10,6 +10,9 @@ describe('EmberCLIDependencyChecker', function() {
       bowerDirectory: 'bower_components',
       dependencies: function() {
         return dependencies || {};
+      },
+      bowerDependencies: function() {
+        return {};
       }
     };
   };
