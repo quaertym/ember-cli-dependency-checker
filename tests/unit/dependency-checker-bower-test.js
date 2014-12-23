@@ -50,6 +50,11 @@ describe('EmberCLIDependencyChecker', function() {
       var project = createProject({ 'ember': 'git://github.com/emberjs/emberjs.git#v1.8.0' });
       assertBowerError(project);
     });
+
+    it('when the version specified is a URL and package is not installed', function() {
+      var project = createProject({ 'ember-easyForm': 'http://builds.dockyard.com.s3.amazonaws.com/ember-easyForm/canary/ember-easyForm.js' });
+      assertBowerError(project);
+    });
   });
 
   describe('does not report unsatisfied Bower dependencies', function() {
@@ -70,6 +75,11 @@ describe('EmberCLIDependencyChecker', function() {
 
     it('when the version specified is a URL', function() {
       var project = createProject({ 'ember': 'http://emberjs.com/ember.tar.gz' });
+      assertNoBowerError(project);
+    });
+
+    it('when the version specified is a URL and installed package does not include bower.json and version key in .bower.json', function() {
+      var project = createProject({ 'sinon': 'http://sinonjs.org/releases/sinon-1.12.1.js' });
       assertNoBowerError(project);
     });
 
