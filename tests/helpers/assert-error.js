@@ -5,12 +5,10 @@ var DependencyChecker = require('../../lib/dependency-checker');
 var DependencyError   = require('../../lib/dependency-error');
 
 module.exports = function(project, type) {
-
-  var includeDependencyChecker = function() {
-    var dependencyChecker = new DependencyChecker(project);
-    dependencyChecker.included();
+  var dependencyChecker = function() {
+    return new DependencyChecker(project);
   };
 
-  assert.throws(includeDependencyChecker, DependencyError, 'Missing ' + type + ' packages');
+  assert.throws(dependencyChecker, DependencyError, 'Missing ' + type + ' packages');
   DependencyChecker.setAlreadyChecked(false);
 };
