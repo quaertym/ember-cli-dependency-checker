@@ -92,5 +92,10 @@ describe('EmberCLIDependencyChecker', function() {
       var project = createProject({ 'ember': '~/projects/emberjs' });
       assertNoBowerError(project);
     });
+
+    it('does NOT error with a * dependency', function() {
+      var project = createProject({ 'ember': '*' });
+      assertNoBowerError(project);
+    });
   });
 });

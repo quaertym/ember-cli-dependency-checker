@@ -82,5 +82,10 @@ describe('EmberCLIDependencyChecker', function() {
       var project = createProject({ 'ember-cli': '~/projects/ember-cli' });
       assertNoNpmError(project);
     });
+
+    it('does NOT error with a * dependency', function() {
+      var project = createProject({ 'ember-cli': '*' });
+      assertNoNpmError(project);
+    });
   });
 });
