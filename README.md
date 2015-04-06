@@ -11,6 +11,12 @@ In your Ember CLI app (>= v1.2.0) run the following:
 npm install --save-dev ember-cli-dependency-checker
 ```
 
+### Tests
+
+To run tests:
+
+`npm test`
+
 ### LICENSE
 
 MIT
