@@ -6,9 +6,9 @@ var DependencyChecker = require('./lib/dependency-checker');
 module.exports = {
   name: 'ember-cli-dependency-checker',
 
-  included: function(project) {
+  included: function(app) {
     var reporter = new Reporter();
-    var dependencyChecker = new DependencyChecker(project, reporter);
+    var dependencyChecker = new DependencyChecker(app.project, reporter);
 
     return dependencyChecker.checkDependencies();
   }
