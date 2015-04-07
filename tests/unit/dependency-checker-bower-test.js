@@ -1,5 +1,6 @@
 'use strict';
 
+var path          = require('path');
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
@@ -10,9 +11,11 @@ describe('EmberCLIDependencyChecker', function() {
   });
 
   var createProject = function(bowerDependencies) {
+    var rootPath = 'tests/fixtures/project-bower-check';
     return {
-      root: 'tests/fixtures/project-bower-check',
+      root: rootPath,
       bowerDirectory: 'bower_components',
+      nodeModulesPath: path.join(rootPath, 'node_modules'),
       dependencies: function() {
         return {};
       },

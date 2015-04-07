@@ -1,5 +1,6 @@
 'use strict';
 
+var path          = require('path');
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyError   = require('../../lib/dependency-error');
@@ -13,9 +14,11 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
   });
 
   var createProject = function(dependencies, root) {
+    var rootPath = root || 'tests/fixtures/project-shrinkwrap-check';
     return {
-      root: root || 'tests/fixtures/project-shrinkwrap-check',
+      root: rootPath,
       bowerDirectory: 'bower_components',
+      nodeModulesPath: path.join(rootPath, 'node_modules'),
       dependencies: function() {
         return dependencies || {};
       },
