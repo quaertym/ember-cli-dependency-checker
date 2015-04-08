@@ -4,29 +4,21 @@ var path          = require('path');
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(dependencies, options) {
+  function createProject(dependencies, options) {
     options = options || {};
-    var rootPath = options.root || 'tests/fixtures/project-npm-check';
-    var project = {
-      root: rootPath,
-      bowerDirectory: 'bower_components',
-      dependencies: function() {
-        return dependencies || {};
-      },
-      bowerDependencies: function() {
-        return {};
-      }
-    };
-    project.nodeModulesPath = options.nodeModulesPath || path.join(rootPath, 'node_modules');
-
-    return project;
-  };
+    options.root = options.root || 'tests/fixtures/project-npm-check';
+    // FIXME: the nodeModulesPath should not be required
+    options.nodeModulesPath = options.nodeModulesPath || path.join(options.root, 'node_modules');
+    options.dependencies = projectBuilder.buildDependencies(dependencies);
+    return projectBuilder.build(options);
+  }
 
   var assertNpmError = function(project) {
     return assertError(project, 'npm');

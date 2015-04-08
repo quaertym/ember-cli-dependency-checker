@@ -1,29 +1,21 @@
 'use strict';
 
-var path          = require('path');
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(bowerDependencies) {
-    var rootPath = 'tests/fixtures/project-bower-check';
-    return {
-      root: rootPath,
-      bowerDirectory: 'bower_components',
-      nodeModulesPath: path.join(rootPath, 'node_modules'),
-      dependencies: function() {
-        return {};
-      },
-      bowerDependencies: function() {
-        return bowerDependencies || {};
-      }
-    };
-  };
+  function createProject(bowerDependencies) {
+    return projectBuilder.build({
+      root: 'tests/fixtures/project-bower-check',
+      bowerDependencies: projectBuilder.buildBowerDependencies(bowerDependencies)
+    });
+  }
 
   var assertBowerError = function(project) {
     return assertError(project, 'bower');

@@ -7,29 +7,21 @@ var DependencyError   = require('../../lib/dependency-error');
 var assert            = require('chai').assert;
 var DependencyChecker = require('../../lib/dependency-checker');
 var Reporter          = require('../../lib/reporter');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(dependencies, options) {
+  function createProject(dependencies, options) {
     options = options || {};
-    var rootPath = options.root || 'tests/fixtures/project-shrinkwrap-check';
-    var project = {
-      root: rootPath,
-      bowerDirectory: 'bower_components',
-      dependencies: function() {
-        return dependencies || {};
-      },
-      bowerDependencies: function() {
-        return {};
-      }
-    };
-    project.nodeModulesPath = options.nodeModulesPath || path.join(rootPath, 'node_modules');
-
-    return project;
-  };
+    options.root = options.root || 'tests/fixtures/project-shrinkwrap-check';
+    // FIXME: the nodeModulesPath should not be required
+    options.nodeModulesPath = options.nodeModulesPath || path.join(options.root, 'node_modules');
+    options.dependencies = projectBuilder.buildDependencies(dependencies);
+    return projectBuilder.build(options);
+  }
 
   describe('with a shrinkwrap file', function() {
     describe('with top-level dependencies that are not satisifed', function() {
