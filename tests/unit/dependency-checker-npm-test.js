@@ -1,6 +1,5 @@
 'use strict';
 
-var path          = require('path');
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
@@ -14,8 +13,6 @@ describe('EmberCLIDependencyChecker', function() {
   function createProject(dependencies, options) {
     options = options || {};
     options.root = options.root || 'tests/fixtures/project-npm-check';
-    // FIXME: the nodeModulesPath should not be required
-    options.nodeModulesPath = options.nodeModulesPath || path.join(options.root, 'node_modules');
     options.dependencies = projectBuilder.buildDependencies(dependencies);
     return projectBuilder.build(options);
   }

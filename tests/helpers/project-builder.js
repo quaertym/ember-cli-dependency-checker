@@ -45,7 +45,6 @@ projectBuilder = {
 defaultProject = {
   root: 'tests/fixtures/project-npm-check',
   bowerDirectory: 'bower_components',
-  nodeModulesPath: 'node_modules',
   dependencies: projectBuilder.buildDependencies(),
   bowerDependencies: projectBuilder.buildBowerDependencies()
 };
