@@ -2,8 +2,13 @@
 
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
+var DependencyChecker = require('../../lib/dependency-checker');
 
 describe('EmberCLIDependencyChecker', function() {
+  beforeEach(function(){
+    DependencyChecker.setAlreadyChecked(false);
+  });
+
   var createProject = function(bowerDependencies) {
     return {
       root: 'tests/fixtures/project-bower-check',

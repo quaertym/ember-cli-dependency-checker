@@ -1,0 +1,18 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "dependencies": {
+    "mkdirp": {
+      "version": "0.5.0",
+      "from": "mkdirp@*",
+      "resolved": "http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.0.tgz",
+      "dependencies": {
+        "minimist": {
+          "version": "0.0.7",
+          "from": "minimist@0.0.7",
+          "resolved": "http://registry.npmjs.org/minimist/-/minimist-0.0.7.tgz"
+        }
+      }
+    }
+  }
+}
