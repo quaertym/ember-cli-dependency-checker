@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "chalk": "^0.5.1",
+    "is-git-url": "^0.2.0",
     "semver": "^4.1.0"
   }
 }
