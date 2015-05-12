@@ -6,24 +6,19 @@ var DependencyError   = require('../../lib/dependency-error');
 var assert            = require('chai').assert;
 var DependencyChecker = require('../../lib/dependency-checker');
 var Reporter          = require('../../lib/reporter');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(dependencies, root) {
-    return {
-      root: root || 'tests/fixtures/project-shrinkwrap-check',
-      bowerDirectory: 'bower_components',
-      dependencies: function() {
-        return dependencies || {};
-      },
-      bowerDependencies: function() {
-        return {};
-      }
-    };
-  };
+  function createProject(dependencies, options) {
+    options = options || {};
+    options.root = options.root || 'tests/fixtures/project-shrinkwrap-check';
+    options.dependencies = projectBuilder.buildDependencies(dependencies);
+    return projectBuilder.build(options);
+  }
 
   describe('with a shrinkwrap file', function() {
     describe('with top-level dependencies that are not satisifed', function() {
@@ -72,7 +67,9 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
       it('when the installed package does not match the version specified', function() {
         var project = createProject({
           'mkdirp': '0.5.0'
-        }, 'tests/fixtures/project-shrinkwrap-nested-deps-check');
+        }, {
+          root: 'tests/fixtures/project-shrinkwrap-nested-deps-check'
+        });
 
         assertError(project, 'npm-shrinkwrap');
       });
@@ -83,8 +80,22 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
     it('when top-level deps and nested deps are satisfied', function() {
       var project = createProject({
         'mkdirp': '0.5.0'
-      }, 'tests/fixtures/project-shrinkwrap-nested-deps-ok');
+      }, {
+        root: 'tests/fixtures/project-shrinkwrap-nested-deps-ok'
+      });
 
+      assertNoError(project, 'npm-shrinkwrap');
+    });
+  });
+
+  describe('sibling node_modules/ directory', function() {
+    it('checks dependencies', function() {
+      var project = createProject({
+        'minimist': '1.1.1'
+      }, {
+        root: 'tests/fixtures/project-shrinkwrap-sibling-node-modules-check/app',
+        nodeModulesPath: 'tests/fixtures/project-shrinkwrap-sibling-node-modules-check/node_modules'
+      });
       assertNoError(project, 'npm-shrinkwrap');
     });
   });

@@ -3,24 +3,19 @@
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(dependencies) {
-    return {
-      root: 'tests/fixtures/project-npm-check',
-      bowerDirectory: 'bower_components',
-      dependencies: function() {
-        return dependencies || {};
-      },
-      bowerDependencies: function() {
-        return {};
-      }
-    };
-  };
+  function createProject(dependencies, options) {
+    options = options || {};
+    options.root = options.root || 'tests/fixtures/project-npm-check';
+    options.dependencies = projectBuilder.buildDependencies(dependencies);
+    return projectBuilder.build(options);
+  }
 
   var assertNpmError = function(project) {
     return assertError(project, 'npm');
@@ -90,6 +85,18 @@ describe('EmberCLIDependencyChecker', function() {
 
     it('does NOT error with a * dependency', function() {
       var project = createProject({ 'ember-cli': '*' });
+      assertNoNpmError(project);
+    });
+  });
+
+  describe('sibling node_modules/ directory', function() {
+    it('checks depdencies', function() {
+      var project = createProject({
+        'ember-cli': '*'
+      }, {
+        root: 'tests/fixtures/project-npm-sibling-node-modules-check/app',
+        nodeModulesPath: 'tests/fixtures/project-npm-sibling-node-modules-check/node_modules',
+      });
       assertNoNpmError(project);
     });
   });

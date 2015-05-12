@@ -3,24 +3,19 @@
 var assertError   = require('../helpers/assert-error');
 var assertNoError = require('../helpers/assert-no-error');
 var DependencyChecker = require('../../lib/dependency-checker');
+var projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker', function() {
   beforeEach(function(){
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  var createProject = function(bowerDependencies) {
-    return {
+  function createProject(bowerDependencies) {
+    return projectBuilder.build({
       root: 'tests/fixtures/project-bower-check',
-      bowerDirectory: 'bower_components',
-      dependencies: function() {
-        return {};
-      },
-      bowerDependencies: function() {
-        return bowerDependencies || {};
-      }
-    };
-  };
+      bowerDependencies: projectBuilder.buildBowerDependencies(bowerDependencies)
+    });
+  }
 
   var assertBowerError = function(project) {
     return assertError(project, 'bower');
