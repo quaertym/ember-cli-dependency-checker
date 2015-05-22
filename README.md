@@ -1,4 +1,4 @@
-ember-cli-dependency-checker [![Build Status](https://travis-ci.org/quaertym/ember-cli-dependency-checker.svg?branch=master)](https://travis-ci.org/quaertym/ember-cli-dependency-checker)
+ember-cli-dependency-checker [![Build Status](https://travis-ci.org/quaertym/ember-cli-dependency-checker.svg?branch=master)](https://travis-ci.org/quaertym/ember-cli-dependency-checker) [![Code Climate](https://codeclimate.com/github/quaertym/ember-cli-dependency-checker/badges/gpa.svg)](https://codeclimate.com/github/quaertym/ember-cli-dependency-checker)
 ============================
 
 An Ember CLI addon that checks for missing npm and bower dependencies before running ember commands.
