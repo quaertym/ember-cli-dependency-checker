@@ -34,7 +34,7 @@ library:
 npm install --save-dev torii
 npm shrinkwrap --dev
 git add package.json npm-shrinkwrap.json
-git commit -m"Install Torii"
+git commit -m "Install Torii"
 ```
 
 **If the npm-shrinkwrap.json file is not committed, nested dependencies cannot be confirmed**.
@@ -61,7 +61,7 @@ begin a dependency check, then if needed clearing the `node_modules/` and `bower
 and installing dependencies. For example:
 
 ```
-ember version || (rm -rf node_modules/ bower_components/ && npm install && bower install)
+([ -f node_modules/ember-cli/bin/ember ] && node_modules/ember-cli/bin/ember version) || (rm -rf node_modules/ bower_components/ && npm install && bower install)
 ember build -e production
 ```
 
