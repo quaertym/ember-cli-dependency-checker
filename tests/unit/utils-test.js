@@ -1,4 +1,5 @@
 var assert = require('chai').assert;
+var path = require('path');
 
 describe('Utils', function() {
 
@@ -6,7 +7,7 @@ describe('Utils', function() {
     it('should return bower directory appended by package name', function() {
       var buildPath = require('../../lib/utils/build-bower-package-path');
       var project = { bowerDirectory: 'bower_components' };
-      assert.equal(buildPath(project, 'super-icons'), 'bower_components/super-icons');
+      assert.equal(buildPath(project, 'super-icons'), 'bower_components' + path.sep + 'super-icons');
     });
   });
 
@@ -14,7 +15,7 @@ describe('Utils', function() {
     it('should return node modules path appended by package name', function() {
       var buildPath = require('../../lib/utils/build-node-package-path');
       var project = { nodeModulesPath: 'node_modules' };
-      assert.equal(buildPath(project, 'awesome-addon'), 'node_modules/awesome-addon');
+      assert.equal(buildPath(project, 'awesome-addon'), 'node_modules' + path.sep + 'awesome-addon');
     });
   });
 
