@@ -29,7 +29,9 @@ vendor/
 .ember-cli
 .travis.yml
 .npmignore
+.watchmanconfig
 **/.gitkeep
 bower.json
-Brocfile.js
+ember-cli-build.js
 testem.json
+appveyor.yml
