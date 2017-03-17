@@ -23,7 +23,7 @@ config/
 tests/
 vendor/
 
-.jshintrc
+.eslintrc.js
 .bowerrc
 .editorconfig
 .ember-cli
