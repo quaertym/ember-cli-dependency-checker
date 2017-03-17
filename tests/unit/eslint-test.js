@@ -1,14 +1,14 @@
 'use strict';
 
-const lint = require('mocha-eslint');
+var lint = require('mocha-eslint');
 
-let paths = [
+var paths = [
   'lib/**/*.js',
   'tests/**/*.js',
   '!tests/fixtures/**',
 ];
 
-let options = {
+var options = {
   strict: true,  // Defaults to `false`, only notify the warnings
 };
 
