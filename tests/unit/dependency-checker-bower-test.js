@@ -57,7 +57,7 @@ describe('EmberCLIDependencyChecker', function() {
     });
   });
 
-  describe('does not report unsatisfied Bower dependencies', function() {
+  describe('does not report satisfied Bower dependencies', function() {
     it('when the installed package matches the version specified', function() {
       var project = createProject({ 'ember': '1.7.0' });
       assertNoBowerError(project);

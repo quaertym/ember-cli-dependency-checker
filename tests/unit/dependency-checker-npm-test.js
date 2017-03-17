@@ -52,7 +52,7 @@ describe('EmberCLIDependencyChecker', function() {
     });
   });
 
-  describe('does not report unsatisfied NPM dependencies', function() {
+  describe('does not report satisfied NPM dependencies', function() {
     it('when the installed package matches the version specified', function() {
       var project = createProject({ 'ember-cli': '1.2.3' });
       assertNoNpmError(project);

@@ -76,7 +76,7 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
     });
   });
 
-  describe('does not report unsatisfied npm-shrinkwrap dependencies', function() {
+  describe('does not report satisfied npm-shrinkwrap dependencies', function() {
     it('when top-level deps and nested deps are satisfied', function() {
       var project = createProject({
         'mkdirp': '0.5.0'
