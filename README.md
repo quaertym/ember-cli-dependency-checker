@@ -6,7 +6,7 @@ An Ember CLI addon that checks for missing npm and bower dependencies before run
 ### Installation
 
 ```bash
-npm install --save-dev ember-cli-dependency-checker
+ember install ember-cli-dependency-checker
 ```
 
 ### Usage
