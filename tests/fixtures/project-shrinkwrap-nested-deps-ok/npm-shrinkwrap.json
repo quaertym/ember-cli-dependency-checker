@@ -8,9 +8,8 @@
       "resolved": "http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.0.tgz",
       "dependencies": {
         "minimist": {
-          "version": "0.0.8",
-          "from": "minimist@0.0.8",
-          "resolved": "http://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz"
+          "version": "http://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz",
+          "from": "minimist@0.0.8"
         }
       }
     }
