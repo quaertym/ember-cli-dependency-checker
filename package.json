@@ -7,8 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build",
-    "start": "ember server",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner"
   },
