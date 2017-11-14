@@ -7,8 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build",
-    "start": "ember server",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner"
   },
@@ -20,30 +18,17 @@
     "url": "https://github.com/quaertym/ember-cli-dependency-checker/issues"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 4"
   },
   "author": "Emre Unal",
   "license": "MIT",
   "readmeFile": "README.md",
   "devDependencies": {
-    "broccoli-asset-rev": "^2.4.5",
     "chai": "^3.5.0",
     "ember-cli": "^2.13.1",
-    "ember-cli-app-version": "^3.0.0",
-    "ember-cli-eslint": "^3.0.2",
-    "ember-cli-htmlbars": "^1.0.10",
-    "ember-cli-htmlbars-inline-precompile": "^0.4.3",
-    "ember-cli-inject-live-reload": "^1.4.1",
-    "ember-cli-qunit": "^4.0.0",
-    "ember-cli-test-loader": "^2.1.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-export-application-global": "^2.0.0",
-    "ember-load-initializers": "^1.0.0",
-    "ember-resolver": "^4.1.0",
     "eslint-plugin-chai": "0.0.1",
     "eslint-plugin-mocha": "^4.8.0",
     "glob": "^7.1.1",
-    "loader.js": "^4.0.10",
     "mocha": "^3.3.0",
     "mocha-eslint": "^3.0.1"
   },
