@@ -91,6 +91,11 @@ describe('EmberCLIDependencyChecker', function() {
         var project = createProject({ 'ember-cli': '*' });
         assertNoPackageManagerError(project);
       });
+
+      it('when the version specified is found outside the project root', function() {
+        var project = createProject({ 'example-package': '1.2.3' }, { root: 'tests/fixtures/outside-root-' + packageManagerName + '-project/project' });
+        assertNoPackageManagerError(project);
+      });
     });
 
     describe('sibling node_modules/ directory', function() {

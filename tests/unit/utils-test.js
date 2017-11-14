@@ -11,12 +11,4 @@ describe('Utils', function() {
     });
   });
 
-  describe('buildNodePackagePath', function() {
-    it('should return node modules path appended by package name', function() {
-      var buildPath = require('../../lib/utils/build-node-package-path');
-      var project = { nodeModulesPath: 'node_modules' };
-      assert.equal(buildPath(project, 'awesome-addon'), 'node_modules' + path.sep + 'awesome-addon');
-    });
-  });
-
 });
