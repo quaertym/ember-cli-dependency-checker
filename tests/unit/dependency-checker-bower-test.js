@@ -55,6 +55,11 @@ describe('EmberCLIDependencyChecker', function() {
       var project = createProject({ 'ember-easyForm': 'http://builds.dockyard.com.s3.amazonaws.com/ember-easyForm/canary/ember-easyForm.js' });
       assertBowerError(project);
     });
+
+    it('when the version specified is a URL and installed package does not include bower.json and version key in .bower.json', function() {
+      var project = createProject({ 'sinon': '1.2.1' });
+      assertBowerError(project);
+    });
   });
 
   describe('does not report satisfied Bower dependencies', function() {
