@@ -54,6 +54,16 @@ describe('EmberCLIDependencyChecker', function() {
         var project = createProject({ 'ember-cli': 'git://github.com/stefanpenner/ember-cli.git#v0.1.0' });
         assertPackageManagerError(project);
       });
+
+      it('when the version specified is a url to a tar.gz  and a _from is provided in the package.json and does not match', function() {
+        var project = createProject({ 'example-tar-gz': 'http://ember-cli.com/example-3.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-check' });
+        assertPackageManagerError(project);
+      });
+
+      it('when the version specified is a url to a tar.gz  and no package is installed', function() {
+        var project = createProject({ 'example-2-tar-gz': 'http://ember-cli.com/example-2-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-check' });
+        assertPackageManagerError(project);
+      });
     });
 
     describe('does not report satisfied ' + packageManagerName + ' dependencies', function() {
@@ -94,6 +104,11 @@ describe('EmberCLIDependencyChecker', function() {
 
       it('when the version specified is found outside the project root', function() {
         var project = createProject({ 'example-package': '1.2.3' }, { root: 'tests/fixtures/outside-root-' + packageManagerName + '-project/project' });
+        assertNoPackageManagerError(project);
+      });
+
+      it('when the version specified is a url to a tar.gz  and a _from is provided in the package.json and urls match', function() {
+        var project = createProject({ 'example-tar-gz': 'http://ember-cli.com/example-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-check' });
         assertNoPackageManagerError(project);
       });
     });
