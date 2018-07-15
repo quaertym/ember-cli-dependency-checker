@@ -1,3 +1,4 @@
+/* eslint-env node, mocha */
 'use strict';
 
 var path           = require('path');

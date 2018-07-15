@@ -1,3 +1,4 @@
+/* eslint-env node, mocha */
 'use strict';
 
 var assertError   = require('../helpers/assert-error');

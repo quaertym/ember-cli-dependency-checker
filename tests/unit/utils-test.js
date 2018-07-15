@@ -1,3 +1,4 @@
+/* eslint-env node, mocha */
 var assert = require('chai').assert;
 var path = require('path');
 
