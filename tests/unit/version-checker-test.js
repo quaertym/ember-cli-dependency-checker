@@ -1,5 +1,6 @@
 'use strict';
 
+var path           = require('path');
 var assert         = require('chai').assert;
 var VersionChecker = require('../../lib/version-checker');
 
@@ -31,6 +32,12 @@ describe('VersionChecker', function() {
     it('when the version specified is git-repo with a non-semver tag', function() {
       assert.ok(VersionChecker.satisfies('git://github.com/stefanpenner/ember-cli.git#master','0.1.0'));
     });
+
+    it('when the version is specified as a path to a tar ball and the installed path is equivalent', function () {
+      const installed = path.join('.', 'foo.tgz');
+      const specified = path.resolve('foo.tgz');
+      assert.ok(VersionChecker.satisfies(installed, specified), `${installed} is equivalent to ${specified}`);
+    });
   });
 
   describe('does not satisfy version', function() {
@@ -53,6 +60,12 @@ describe('VersionChecker', function() {
 
     it('when the version specified is git-repo with a non-matched version', function() {
       assert.notOk(VersionChecker.satisfies('git://github.com/stefanpenner/ember-cli.git#v0.1.0','1.0.0'));
+    });
+
+    it('when the version is specified as a path to a tar ball and the installed path is different', function () {
+      const installed = path.join('foo', 'bar.tgz');
+      const specified = path.join('quux', 'bar.tgz');
+      assert.notOk(VersionChecker.satisfies(installed, specified), `${installed} is not equivalent to ${specified}`);
     });
   });
 });
