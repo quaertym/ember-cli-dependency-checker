@@ -1,9 +1,9 @@
 'use strict';
 
-var assert            = require('chai').assert;
-var DependencyError   = require('../../lib/dependency-error');
+const assert            = require('chai').assert;
+const DependencyError   = require('../../lib/dependency-error');
 
 module.exports = function(project, type) {
-  var checkDependencies = require('./check-dependencies')(project);
+  const checkDependencies = require('./check-dependencies')(project);
   assert.throws(checkDependencies, DependencyError, 'Missing ' + type + ' packages');
 };

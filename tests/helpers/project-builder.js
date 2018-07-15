@@ -1,10 +1,10 @@
 'use strict';
 
-var defaultProject, projectBuilder;
+let defaultProject, projectBuilder;
 
 function simpleMerge(target, object) {
-  var merged = Object.create(target);
-  for (var key in object) {
+  const merged = Object.create(target);
+  for (const key in object) {
     merged[key] = object[key];
   }
   return merged;
@@ -13,7 +13,7 @@ function simpleMerge(target, object) {
 /*
  * Usage:
  *
- * var project = projectBuilder.build({
+ * const project = projectBuilder.build({
  *   dependencies: projectBuilder.buildDependencies([
  *     { some: object }
  *   ],
@@ -25,7 +25,7 @@ function simpleMerge(target, object) {
 projectBuilder = {
 
   build: function projectBuilder$build(configuredProject) {
-    var project = simpleMerge(defaultProject, configuredProject || {});
+    const project = simpleMerge(defaultProject, configuredProject || {});
     return project;
   },
 

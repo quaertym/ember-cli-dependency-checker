@@ -1,9 +1,9 @@
 /* eslint-env node, mocha */
 'use strict';
 
-var path           = require('path');
-var assert         = require('chai').assert;
-var VersionChecker = require('../../lib/version-checker');
+const path           = require('path');
+const assert         = require('chai').assert;
+const VersionChecker = require('../../lib/version-checker');
 
 describe('VersionChecker', function() {
   describe('does satisfy version', function() {
