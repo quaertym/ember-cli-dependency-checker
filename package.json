@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-dependency-checker",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Ember CLI addon for detecting missing npm and bower dependencies before executing ember commands",
   "keywords": [
     "bower",
