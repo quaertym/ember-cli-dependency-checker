@@ -45,12 +45,12 @@
     "ember-try": "^0.2.23",
     "eslint-plugin-chai": "0.0.1",
     "eslint-plugin-ember": "^5.0.0",
-    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-node": "^6.0.1",
     "glob": "^7.1.1",
-    "mocha": "^4.0.1",
+    "mocha": "^5.2.0",
     "mocha-eslint": "^4.1.0",
-    "qunit-dom": "^0.6.2"
+    "qunit-dom": "^0.7.0"
   },
   "engines": {
     "node": ">= 6"
