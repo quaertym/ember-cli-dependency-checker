@@ -1,12 +1,13 @@
+/* eslint-env node, mocha */
 'use strict';
 
-var assertError   = require('../helpers/assert-error');
-var assertNoError = require('../helpers/assert-no-error');
-var DependencyError   = require('../../lib/dependency-error');
-var assert            = require('chai').assert;
-var DependencyChecker = require('../../lib/dependency-checker');
-var Reporter          = require('../../lib/reporter');
-var projectBuilder = require('../helpers/project-builder');
+const assertError   = require('../helpers/assert-error');
+const assertNoError = require('../helpers/assert-no-error');
+const DependencyError   = require('../../lib/dependency-error');
+const assert            = require('chai').assert;
+const DependencyChecker = require('../../lib/dependency-checker');
+const Reporter          = require('../../lib/reporter');
+const projectBuilder = require('../helpers/project-builder');
 
 describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
   beforeEach(function(){
@@ -23,12 +24,12 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
   describe('with a shrinkwrap file', function() {
     describe('with top-level dependencies that are not satisifed', function() {
       it('throws npm error but not npm-shrinkwrap error', function() {
-        var project = createProject({
+        const project = createProject({
           minimist: '^1.1.1'
         });
 
-        var checker = new DependencyChecker(project, new Reporter());
-        var errorMsg;
+        const checker = new DependencyChecker(project, new Reporter());
+        let errorMsg;
         try {
           checker.checkDependencies();
         } catch (e) {
@@ -43,12 +44,12 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
       });
 
       it('throws npm-shrinkwrap error if dependency is met by package.json but not by shrinkwrap', function() {
-        var project = createProject({
+        const project = createProject({
           minimist: '^1.0.0'
         });
 
-        var checker = new DependencyChecker(project, new Reporter());
-        var errorMsg;
+        const checker = new DependencyChecker(project, new Reporter());
+        let errorMsg;
         try {
           checker.checkDependencies();
         } catch (e) {
@@ -65,7 +66,7 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
 
     describe('when top-level deps are satisfied but nested deps are not', function() {
       it('when the installed package does not match the version specified', function() {
-        var project = createProject({
+        const project = createProject({
           'mkdirp': '0.5.0'
         }, {
           root: 'tests/fixtures/project-shrinkwrap-nested-deps-check'
@@ -78,7 +79,7 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
 
   describe('does not report satisfied npm-shrinkwrap dependencies', function() {
     it('when top-level deps and nested deps are satisfied', function() {
-      var project = createProject({
+      const project = createProject({
         'mkdirp': '0.5.0'
       }, {
         root: 'tests/fixtures/project-shrinkwrap-nested-deps-ok'
@@ -90,7 +91,7 @@ describe('EmberCLIDependencyChecker : Shrinkwrap', function() {
 
   describe('sibling node_modules/ directory', function() {
     it('checks dependencies', function() {
-      var project = createProject({
+      const project = createProject({
         'minimist': '1.1.1'
       }, {
         root: 'tests/fixtures/project-shrinkwrap-sibling-node-modules-check/app',

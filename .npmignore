@@ -27,11 +27,13 @@ vendor/
 .bowerrc
 .editorconfig
 .ember-cli
+.gitignore
 .travis.yml
 .npmignore
 .watchmanconfig
 **/.gitkeep
 bower.json
 ember-cli-build.js
-testem.json
+testem.js*
 appveyor.yml
+yarn.lock

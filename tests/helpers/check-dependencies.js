@@ -1,12 +1,12 @@
 'use strict';
 
-var DependencyChecker = require('../../lib/dependency-checker');
-var Reporter          = require('../../lib/reporter');
+const DependencyChecker = require('../../lib/dependency-checker');
+const Reporter          = require('../../lib/reporter');
 
 module.exports = function(project) {
   return function() {
-    var reporter = new Reporter();
-    var checker = new DependencyChecker(project, reporter);
+    const reporter = new Reporter();
+    const checker = new DependencyChecker(project, reporter);
     return checker.checkDependencies();
   };
 };

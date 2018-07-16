@@ -9,13 +9,12 @@ environment:
   matrix:
     - nodejs_version: "6"
     - nodejs_version: "8"
-    - nodejs_version: "9"
+    - nodejs_version: "10"
 
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
-  - appveyor-retry yarn --no-lockfile --non-interactive
-
+  - appveyor-retry yarn --frozen-lockfile --non-interactive
 
 cache:
   - '%LOCALAPPDATA%\Yarn'
@@ -25,7 +24,7 @@ test_script:
   # Output useful info for debugging.
   - yarn --version
   - git rev-parse HEAD
-  - cmd: yarn test
+  - yarn test
 
 # Don't actually build.
 build: off
