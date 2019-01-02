@@ -1,5 +1,7 @@
 'use strict';
 
+const resolve = require('resolve');
+
 let defaultProject, projectBuilder;
 
 function simpleMerge(target, object) {
@@ -46,7 +48,11 @@ defaultProject = {
   root: 'tests/fixtures/project-npm-check',
   bowerDirectory: 'bower_components',
   dependencies: projectBuilder.buildDependencies(),
-  bowerDependencies: projectBuilder.buildBowerDependencies()
+  bowerDependencies: projectBuilder.buildBowerDependencies(),
+
+  resolveSync(path) {
+    return resolve.sync(path, { basedir: this.root });
+  }
 };
 
 module.exports = projectBuilder;
