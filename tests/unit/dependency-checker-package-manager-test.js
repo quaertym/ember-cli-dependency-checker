@@ -112,6 +112,11 @@ describe('EmberCLIDependencyChecker', function() {
         const project = createProject({ 'example-tar-gz': 'http://ember-cli.com/example-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-check' });
         assertNoPackageManagerError(project);
       });
+
+      it('when the version specified is a url to a tar.gz and a _from is provided in the package.json with the package-name@ prefix and urls match', function() {
+        const project = createProject({ 'example-tar-gz': 'http://ember-cli.com/example-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-at-check' });
+        assertNoPackageManagerError(project);
+      });
     });
 
     describe('sibling node_modules/ directory', function() {
