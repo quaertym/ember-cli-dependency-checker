@@ -11,10 +11,11 @@ describe('EmberCLIDependencyChecker', function() {
     DependencyChecker.setAlreadyChecked(false);
   });
 
-  function createProject(bowerDependencies) {
+  function createProject(bowerDependencies, npmDependencies = {}) {
     return projectBuilder.build({
       root: 'tests/fixtures/project-bower-check',
-      bowerDependencies: projectBuilder.buildBowerDependencies(bowerDependencies)
+      bowerDependencies: projectBuilder.buildBowerDependencies(bowerDependencies),
+      dependencies: projectBuilder.buildDependencies(npmDependencies),
     });
   }
 
@@ -96,6 +97,11 @@ describe('EmberCLIDependencyChecker', function() {
 
     it('does NOT error with a * dependency', function() {
       const project = createProject({ 'ember': '*' });
+      assertNoBowerError(project);
+    });
+
+    it('when the package is installed via yarn or npm', function() {
+      const project = createProject({ 'ember': '1.0.0' }, { '@bower_components/ember': '1.0.0' });
       assertNoBowerError(project);
     });
   });

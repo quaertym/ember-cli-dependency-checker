@@ -65,6 +65,11 @@ describe('EmberCLIDependencyChecker', function() {
         const project = createProject({ 'example-2-tar-gz': 'http://ember-cli.com/example-2-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-check' });
         assertPackageManagerError(project);
       });
+
+      it('when the specified bower package is not installed via npm', function() {
+        const project = createProject({ '@bower_components/foo': '0.1.1' });
+        assertPackageManagerError(project);
+      });
     });
 
     describe('does not report satisfied ' + packageManagerName + ' dependencies', function() {
@@ -115,6 +120,11 @@ describe('EmberCLIDependencyChecker', function() {
 
       it('when the version specified is a url to a tar.gz and a _from is provided in the package.json with the package-name@ prefix and urls match', function() {
         const project = createProject({ 'example-tar-gz': 'http://ember-cli.com/example-2.0.0.tar.gz' }, { root: 'tests/fixtures/project-'+ packageManagerName + '-tar-gz-at-check' });
+        assertNoPackageManagerError(project);
+      });
+
+      it('when the specified bower package is installed via npm', function() {
+        const project = createProject({ '@bower_components/ember': '1.0.0' }, { root: 'tests/fixtures/project-bower-away' });
         assertNoPackageManagerError(project);
       });
     });

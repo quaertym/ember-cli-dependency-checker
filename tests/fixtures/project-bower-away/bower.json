@@ -1,0 +1,6 @@
+{
+  "name": "project-bower-away",
+  "dependencies": {
+    "ember": "1.0.0"
+  }
+}
