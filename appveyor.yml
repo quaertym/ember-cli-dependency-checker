@@ -7,14 +7,17 @@ init:
 # Test against these versions of Node.js.
 environment:
   matrix:
-    - nodejs_version: "6"
     - nodejs_version: "8"
     - nodejs_version: "10"
+image:
+  - Ubuntu
+  - Visual Studio 2017
 
 # Install scripts. (runs after repo cloning)
 install:
-  - ps: Install-Product node $env:nodejs_version
-  - appveyor-retry yarn --frozen-lockfile --non-interactive
+  - cmd: powershell Install-Product node $env:nodejs_version
+  - sh: nvm install $nodejs_version
+  - yarn --frozen-lockfile --non-interactive
 
 cache:
   - '%LOCALAPPDATA%\Yarn'

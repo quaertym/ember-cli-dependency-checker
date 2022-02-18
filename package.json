@@ -50,7 +50,8 @@
     "glob": "^7.1.1",
     "mocha": "^5.2.0",
     "mocha-eslint": "^4.1.0",
-    "qunit-dom": "^0.7.0"
+    "qunit-dom": "^0.7.0",
+    "sinon": "^13.0.0"
   },
   "peerDependencies": {
     "ember-cli": "~3.2.0"
