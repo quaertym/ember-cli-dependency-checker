@@ -12,9 +12,7 @@ module.exports = {
     const emberPosition = process.argv.findIndex(arg => arg.endsWith('/ember'));
     const ranWithInit = process.argv[emberPosition + 1] === 'init';
 
-    if (ranWithInit) {
-      process.emitWarning('Skipped dependency checker…');
-    } else {
+    if (!ranWithInit) {
       const reporter = new Reporter();
       const dependencyChecker = new DependencyChecker(this.project, reporter);
       dependencyChecker.checkDependencies();
