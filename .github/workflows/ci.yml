@@ -13,15 +13,20 @@ concurrency:
 
 jobs:
   test:
-    name: "Tests"
-    runs-on: ubuntu-latest
+    name: "Tests - ${{ matrix.os }} - Node.js ${{ matrix.node-version }}"
+    runs-on: "${{ matrix.os }}-latest"
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x]
+        os: [ubuntu, windows]
 
     steps:
       - uses: actions/checkout@v3
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 10.x
+          node-version: ${{ matrix.node-version }}
           cache: yarn
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
@@ -31,14 +36,18 @@ jobs:
         run: yarn test
 
   floating:
-    name: "Floating Dependencies"
+    name: "Floating Dependencies - Node.js ${{ matrix.node-version }}"
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x]
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 10.x
+          node-version: ${{ matrix.node-version }}
           cache: yarn
       - name: Install Dependencies
         run: yarn install --no-lockfile
