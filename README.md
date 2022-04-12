@@ -1,5 +1,5 @@
 Ember CLI Dependency Checker
-[![Build Status](https://github.com/quaertym/ember-cli-dependency-checker/actions/workflows/ci.yml/badge.svg)](https://github.com/quaertym/ember-cli-dependency-checker/actions/workflows/ci.yml)
+[![Build Status](https://github.com/quaertym/ember-cli-dependency-checker/workflows/CI/badge.svg)](https://github.com/quaertym/ember-cli-dependency-checker/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/quaertym/ember-cli-dependency-checker/badges/gpa.svg)](https://codeclimate.com/github/quaertym/ember-cli-dependency-checker)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-dependency-checker.svg)](http://emberobserver.com/addons/ember-cli-dependency-checker)
 ============================
