@@ -41,6 +41,15 @@
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.6",
     "ember-cli": "~3.2.0",
+    "ember-cli-3.4": "npm:ember-cli@~3.4.0",
+    "ember-cli-3.8": "npm:ember-cli@~3.8.0",
+    "ember-cli-3.12": "npm:ember-cli@~3.12.0",
+    "ember-cli-3.16": "npm:ember-cli@~3.16.0",
+    "ember-cli-3.20": "npm:ember-cli@~3.20.0",
+    "ember-cli-3.24": "npm:ember-cli@~3.24.0",
+    "ember-cli-3.28": "npm:ember-cli@~3.28.0",
+    "ember-cli-beta": "npm:ember-cli@beta",
+    "ember-cli-latest": "npm:ember-cli@latest",
     "eslint": "^7.32.0",
     "eslint-plugin-chai": "^0.0.1",
     "eslint-plugin-ember": "^10.6.0",
@@ -49,6 +58,7 @@
     "glob": "^8.0.1",
     "mocha": "^9.2.2",
     "mocha-eslint": "^7.0.0",
+    "scenario-tester": "^2.1.1",
     "sinon": "^13.0.2"
   },
   "peerDependencies": {

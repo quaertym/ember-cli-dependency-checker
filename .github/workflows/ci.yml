@@ -17,6 +17,7 @@ jobs:
     runs-on: "${{ matrix.os }}-latest"
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [12.x, 14.x, 16.x]
         os: [ubuntu, windows]
@@ -43,6 +44,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [12.x, 14.x, 16.x]
 
@@ -58,3 +60,36 @@ jobs:
 
       - name: Run Tests
         run: yarn test
+
+  compatibility-scenarios:
+    name: ${{ matrix.try-scenario }}
+    runs-on: ubuntu-latest
+    needs: "test"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        try-scenario:
+          - lts_3_4
+          - lts_3_8
+          - lts_3_12
+          - lts_3_16
+          - lts_3_20
+          - lts_3_24
+          - lts_3_28
+          - release
+          - beta
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 12.x
+          cache: yarn
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Tests
+        run: ./node_modules/.bin/mocha --grep ${{ matrix.try-scenario }} -t 600000 tests/scenarios.js

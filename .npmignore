@@ -23,10 +23,12 @@ config/
 tests/
 vendor/
 
+.eslintignore
 .eslintrc.js
 .bowerrc
 .editorconfig
 .ember-cli
+.github
 .gitignore
 .travis.yml
 .npmignore
