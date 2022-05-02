@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x]
+        node-version: [12.x, 14.x, 16.x]
         os: [ubuntu, windows]
 
     steps:
@@ -28,10 +28,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
+
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+
       - name: Lint
         run: yarn lint:js
+
       - name: Run Tests
         run: yarn test
 
@@ -41,7 +44,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x]
+        node-version: [12.x, 14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +52,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
+
       - name: Install Dependencies
         run: yarn install --no-lockfile
+
       - name: Run Tests
         run: yarn test
