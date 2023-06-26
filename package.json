@@ -52,7 +52,7 @@
     "sinon": "^13.0.2"
   },
   "peerDependencies": {
-    "ember-cli": "^3.2.0 || ^4.0.0"
+    "ember-cli": "^3.2.0 || >=4.0.0"
   },
   "engines": {
     "node": ">= 6"
