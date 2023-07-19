@@ -1,3 +1,4 @@
+.github/
 bower_components/
 tests/
 tmp/
@@ -23,6 +24,7 @@ config/
 tests/
 vendor/
 
+.eslintignore
 .eslintrc.js
 .bowerrc
 .editorconfig
